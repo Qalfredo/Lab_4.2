@@ -1,3 +1,6 @@
+library(ISLR)
+library(MASS)
+
 #Cargamos el dataset:
 
 data("Smarket")  # Smarket es un dataframe que consta de 1250 observaciones y 9 variables
@@ -18,3 +21,10 @@ testing_set<-Smarket[tr3,]
 
 modeloglm<-glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,family = 'binomial',data = training_set)
 modelolda<-lda(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data = training_set)
+
+pre<-predict.glm(modeloglm,newdata = testing_set,type = 'response')
+predict(modelolda,testing_set)$class
+
+
+accuracy<-table(pre>0.5,testing_set[,"Direction"])
+sum(diag(accuracy))/sum(accuracy)
