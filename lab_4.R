@@ -25,6 +25,12 @@ modelolda<-lda(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data = training_set)
 pre<-predict.glm(modeloglm,newdata = testing_set,type = 'response')
 predict(modelolda,testing_set)$class
 
+# Matriz de confusion
 
-accuracy<-table(pre>0.5,testing_set[,"Direction"])
-sum(diag(accuracy))/sum(accuracy)
+confussionmatrix<-table(pre>0.5,testing_set[,"Direction"])
+
+#Evaluamos el modelo usando la sensibilidad:
+
+sensitivity<-confussionmatrix[2,2]/(confussionmatrix[2,2]+confussionmatrix[1,1]) ## =0.54
+
+
